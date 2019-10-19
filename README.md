@@ -6,54 +6,54 @@ To convert multiple files at once, please follow this naming scheme:
 file.wav (master audio) file1.wav file2.wav file3.wav...etc.
 use the -n/--number option to load the additional files into the program.
 
-# Command line options:
-## -f, --file
+## Command line options:
+* -f, --file
 Location of master audio file
 Default argument: file.wav
 
-## -e, --export
+* -e, --export
 Location of exported audio file
 Default argument: export.wav
 
-## -n, --number
+* -n, --number
 Number of additional audio files to convert
 Default argument: 0
 
-## -k, --skip
+* -k, --skip
 Uses binary logic to detemine which additional files to normalize and not amplify
 Default argument: 0
 
-## -s, --samples
+* -s, --samples
 Switches time format to samples instead of seconds
 
-## -a, --amplify
+* -a, --amplify
 Amplification factor for audio
 Default argument: Normalize audio
 
-## -r, --remove
+* -r, --remove
 Removes silence from start and/or end of audio
 Default argument: 3
 
-## -c, --click
+* -c, --click
 Removes 'clicks' from start and/or end of audio-not perfect!
 Default argument: 0
 
-## -t, --threshold
+* -t, --threshold
 Make the silence remover function less precise
 Default argument: 0
 
-## -d, --addstart
+* -d, --addstart
 Add amount of silence to start of audio
 Default argument: 0
 
-## -e, --addend
+* -e, --addend
 Add amount of silence to end of audio
 Default argument: 0
 
-## -i, --fadein
+* -i, --fadein
 Add fade in to start of audio
 Default argument: 0
 
-## -o, --fadeout
+* -o, --fadeout
 Add fade out to end of audio
 Default argument: 0
