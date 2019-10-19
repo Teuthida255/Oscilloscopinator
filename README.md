@@ -7,53 +7,50 @@ file.wav (master audio) file1.wav file2.wav file3.wav...etc.
 use the -n/--number option to load the additional files into the program.
 
 ## Command line options:
-* -f, --file
+* -f, --file:
 Location of master audio file
-Default argument: file.wav
+(Default argument: file.wav)
 
-* -e, --export
+* -e, --export:
 Location of exported audio file
-Default argument: export.wav
+(Default argument: export.wav)
 
-* -n, --number
+* -n, --number:
 Number of additional audio files to convert
-Default argument: 0
+(Default argument: 0)
 
-* -k, --skip
-Uses binary logic to detemine which additional files to normalize and not amplify
-Default argument: 0
+* -k, --skip:
+Uses binary logic to detemine which additional files to normalize and not amplify (Example: -k 5 = 0101 = amplify the first and third files; normalize the second and fourth) (Default argument: 0)
 
-* -s, --samples
+* -s, --samples:
 Switches time format to samples instead of seconds
 
-* -a, --amplify
+* -a, --amplify:
 Amplification factor for audio
-Default argument: Normalize audio
+(Default argument: Normalize audio)
 
-* -r, --remove
-Removes silence from start and/or end of audio
-Default argument: 3
+* -r, --remove:
+Removes silence from start and/or end of audio (0 = none, 1 = start, 2 = end, 3 = both) (Default argument: 3)
 
-* -c, --click
-Removes 'clicks' from start and/or end of audio-not perfect!
-Default argument: 0
+* -c, --click:
+Removes 'clicks' from start and/or end of audio-not perfect! (0 = none, 1 = start, 2 = end, 3 = both) (Default argument: 0)
 
-* -t, --threshold
+* -t, --threshold:
 Make the silence remover function less precise
-Default argument: 0
+(Default argument: 0)
 
-* -d, --addstart
+* -d, --addstart:
 Add amount of silence to start of audio
-Default argument: 0
+(Default argument: 0)
 
-* -e, --addend
+* -e, --addend:
 Add amount of silence to end of audio
-Default argument: 0
+(Default argument: 0)
 
-* -i, --fadein
-Add fade in to start of audio
-Default argument: 0
+* -i, --fadein:
+Add fade in to start of audio; argument determines length of fade
+(Default argument: 0)
 
-* -o, --fadeout
-Add fade out to end of audio
-Default argument: 0
+* -o, --fadeout:
+Add fade out to end of audio; argument determines length of fade
+(Default argument: 0)
