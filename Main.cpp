@@ -29,11 +29,11 @@ int main(int argc, char* argv[]) {
 	Option file('f', "file", true,
 		"Location of master audio file",
 		"",
-		"file.wav"); 
+		"file.wav");
 	Option ex('e', "export", true,
 		"Location of exported audio file",
 		"",
-		"export.wav");
+		"yeet.wav");
 	Option number('n', "number", true,
 		"Number of additional audio files to convert",
 		"",
@@ -79,46 +79,46 @@ int main(int argc, char* argv[]) {
 
 
 	std::vector <Option*> opttable;
-	opttable.push_back(&file);     
-	opttable.push_back(&ex);       
-	opttable.push_back(&number);   
+	opttable.push_back(&file);
+	opttable.push_back(&ex);
+	opttable.push_back(&number);
 	opttable.push_back(&skip);
-	opttable.push_back(&samples);  
-	opttable.push_back(&amplify);  
-	opttable.push_back(&remove);   
-	opttable.push_back(&click);    
+	opttable.push_back(&samples);
+	opttable.push_back(&amplify);
+	opttable.push_back(&remove);
+	opttable.push_back(&click);
 	opttable.push_back(&threshold);
-	opttable.push_back(&addstart); 
-	opttable.push_back(&addend);   
-	opttable.push_back(&fadein);   
-	opttable.push_back(&fadeout);  
+	opttable.push_back(&addstart);
+	opttable.push_back(&addend);
+	opttable.push_back(&fadein);
+	opttable.push_back(&fadeout);
 
 	std::string buffer;
 	switch (argc) {
 		//if just the program's name was called
-		case 1:
-			std::cout << "Oscilloscopinator(sic): a program for preparing .wav files for oscilliscope videos\n"
-				<< "Created by Teuthida\n\n";
-			std::cout << "IMPORTANT NOTE: To convert multiple files at once, please follow this naming scheme:\n"
-				<< "file.wav (master audio) file1.wav file2.wav file3.wav...etc.\n"
-				<< "use the -n/--number option to load the additional files into the program.\n\n";
-			std::cout << "Command line options:\n";
-			for (auto i : opttable) {
-				i->describeOption();
-			}
-			std::cout << "\n";
-			return 0;
-			break;
+	case 1:
+		std::cout << "Oscilloscopinator: a program for preparing .wav files for oscillocope videos\n"
+			<< "Created by Teuthida\n\n";
+		std::cout << "IMPORTANT NOTE: To convert multiple files at once, please follow this naming scheme:\n"
+			<< "file.wav (master audio) file1.wav file2.wav file3.wav...etc.\n"
+			<< "use the -n/--number option to load the additional files into the program.\n\n";
+		std::cout << "Command line options:\n";
+		for (auto i : opttable) {
+			i->describeOption();
+		}
+		std::cout << "\n";
+		return 0;
+		break;
 		//if just two things were called, use the second as the filename
-		case 2:
-			opttable[FILE]->setArgument(argv[1]);
-			buffer.assign(argv[1]);
-			//remove extension
-			buffer.erase(buffer.end() - 4, buffer.end());
-			opttable[EX]->setArgument(buffer + "_export.wav");
-			break;
-		default:
-			handleOptions(argc, argv, opttable);
+	case 2:
+		opttable[FILE]->setArgument(argv[1]);
+		buffer.assign(argv[1]);
+		//remove extension
+		buffer.erase(buffer.end() - 4, buffer.end());
+		opttable[EX]->setArgument(buffer + "_export.wav");
+		break;
+	default:
+		handleOptions(argc, argv, opttable);
 	}
 
 	//do master audio first; this will determine how the others are handled
@@ -179,7 +179,7 @@ int main(int argc, char* argv[]) {
 	std::vector<bool> normalizetable;
 	const long bitmask = 0x01 << (numberoffiles - 1);
 	long normalizevalue = std::stol(opttable[SKIP]->getArgument());
-	if (normalizevalue > 0) {
+	if (normalizevalue >= 0) {
 		if (normalizevalue >= ceil(pow(2, numberoffiles))) {
 			normalizevalue = (ceil(pow(2, numberoffiles)) - 1);
 		}
@@ -194,6 +194,17 @@ int main(int argc, char* argv[]) {
 			itfilename = (filepath_noext + std::to_string(i) + extension);
 			audiofiles.push_back(new WAV(itfilename));
 		}
+
+		//find the amplification factor for all the files
+		ampFactor = AudioFunctions::getNormalizeRatio(audiofiles[0]->audio_data);
+		double ampbuf;
+		for (int i = 1; i < audiofiles.size(); i++) {
+			if (!normalizetable[i]) { //normalized files use their own amplification factor
+				ampbuf = AudioFunctions::getNormalizeRatio(audiofiles[i]->audio_data);
+				ampFactor = (ampbuf < ampFactor) ? ampbuf : ampFactor;
+			}
+		}
+
 		for (int i = 0; i < audiofiles.size(); i++) {
 			AudioFunctions::amplify(audiofiles[i]->audio_data, (normalizetable[i] ? AudioFunctions::getNormalizeRatio(audiofiles[i]->audio_data) : ampFactor));
 
@@ -214,7 +225,6 @@ int main(int argc, char* argv[]) {
 			}
 		}
 	}
-
 
 	std::string exportpath = opttable[EX]->getArgument();
 	std::cout << "Writing to file " << exportpath << "...\n";
