@@ -4,7 +4,7 @@ Simple .program that prepares .wav files for oscilloscope videos in a semi-custo
 ## IMPORTANT NOTE
 To convert multiple files at once, please follow this naming scheme:
 file.wav (master audio) file1.wav file2.wav file3.wav...etc.
-use the -n/--number option to load the additional files into the program.
+Use the -n/--number option to load the additional files into the program.
 
 ## Command line options:
 * -f, --file:
